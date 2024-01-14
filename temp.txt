@@ -1,0 +1,370 @@
+python -m venv venv
+source venv/Scripts/activate
+pipenv shell
+pipenv install --dev seaborn
+# pipenv lock
+
+ls -lah
+# pip install notebook
+# jupyter notebook
+
+git remote add upstream https://github.com/KonuTech/data-engineering-zoomcamp
+git remote -v
+git fetch upstream
+git checkout main
+git merge upstream/master
+git commit -m "updated from upstream repo"
+git push origin master
+git status
+git add .
+
+
+waitress-serve --port=9696 predict:app
+waitress-serve --listen=0.0.0.0:9696 predict:app
+jupyter notebook >>> 05-train-churn-model
+
+
+docker run -it --rm --entrypoint=bash python:3.8.12-slim
+pwd
+ls
+apt-get install wget
+pip install pip
+
+# Running a dockerized app:
+# 1. From the local terminal:
+docker build -t zoomcamp-homework .
+
+# 2. From the local terminal:
+docker run -it --rm -p 9696:9696 --entrypoint=bash zoomcamp-homework
+
+# 3. Run an app in a Docker image: 
+python predict.py
+
+# 4. Run a prediction from the local terminal:
+python predict-test.py
+
+# docker run -it --rm --entrypoint=bash zoomcamp-test
+# docker build -t zoomcamp-test .
+# docker run -it --rm -p 9696:9696 --entrypoint=bash zoomcamp-test
+# docker run -it --rm -p 9696:9696 --entrypoint=bash svizor/zoomcamp-model:3.10.12-slim
+
+
+# 1. From the local terminal:
+docker build -t clothing-model .
+
+# 2. From the local terminal:
+docker run -it --rm -p 8080:8080 clothing-model:latest
+docker run -it --rm --entrypoint=bash clothing-model:latest
+
+# 3. Run an app in a Docker image: 
+python predict.py
+
+# 4. Run a prediction from the local terminal:
+python predict-test.py
+
+# docker run -it --rm --entrypoint=bash zoomcamp-test
+# docker build -t zoomcamp-test .
+# docker run -it --rm -p 9696:9696 --entrypoint=bash zoomcamp-test
+# docker run -it --rm -p 9696:9696 --entrypoint=bash svizor/zoomcamp-model:3.10.12-slim
+
+# HOMEWORK
+# docker pull agrigorev/zoomcamp-bees-wasps:v2
+# docker images
+# docker build -t zoomcamp-serverless-homework .
+# docker run -it --rm -p 8080:8080 --entrypoint=bash zoomcamp-serverless-homework
+
+# in a Docker shell:
+# python
+# import homework
+# homework.predict(url="https://habrastorage.org/webt/rt/d9/dh/rtd9dhsmhwrdezeldzoqgijdg8a.jpeg")
+
+
+# 10.3 
+docker run -it --rm \
+    -p 8500:8500 \
+    -v "C:\Users\KonuTech\ml-zoomcamp\machine-learning-zoomcamp\10-kubernetes\code\clothing-model:/models/clothing-model/1" \
+    -e MODEL_NAME="clothing-model" \
+    tensorflow/serving:2.7.0
+
+
+# 10.4
+docker build -t zoomcamp-10-model:xception-v4-001 \
+    -f image-model.dockerfile .
+
+docker run -it --rm \
+    -p 8500:8500 \
+    zoomcamp-10-model:xception-v4-001
+
+
+docker build -t zoomcamp-10-gateway:002 \
+    -f image-gateway.dockerfile .
+
+docker run -it --rm \
+    -p 9696:9696 \
+    zoomcamp-10-gateway:002
+
+
+docker-compose up
+
+
+# 10.5
+docker build -t ping:v001 .
+
+docker run -it --rm \
+    -p 9696:9696 \
+    ping:v001
+
+curl localhost:9696/ping
+
+
+# 10.6
+curl.exe -Lo kind-windows-amd64.exe https://kind.sigs.k8s.io/dl/v0.20.0/kind-windows-amd64
+Move-Item .\kind-windows-amd64.exe c:\kind\kind.exe
+
+
+PS C:\kind> .\kind.exe create cluster
+Creating cluster "kind" ...
+ • Ensuring node image (kindest/node:v1.27.3) 🖼  ...
+ ✓ Ensuring node image (kindest/node:v1.27.3) 🖼
+ • Preparing nodes 📦   ...
+ ✓ Preparing nodes 📦
+ • Writing configuration 📜  ...
+ ✓ Writing configuration 📜
+ • Starting control-plane 🕹️  ...
+ ✓ Starting control-plane 🕹️
+ • Installing CNI 🔌  ...
+ ✓ Installing CNI 🔌
+ • Installing StorageClass 💾  ...
+ ✓ Installing StorageClass 💾
+Set kubectl context to "kind-kind"
+You can now use your cluster with:
+
+kubectl cluster-info --context kind-kind
+
+Thanks for using kind! 😊
+
+
+PS C:\kind> kubectl cluster-info --context kind-kind
+Kubernetes control plane is running at https://127.0.0.1:59542
+CoreDNS is running at https://127.0.0.1:59542/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+
+To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
+
+PS C:\kind> kubectl get service
+NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   3m18s
+
+
+PS C:\kind> docker ps
+CONTAINER ID   IMAGE                  COMMAND                  CREATED          STATUS          PORTS                       NAMES
+a870482b9e7c   kindest/node:v1.27.3   "/usr/local/bin/entr…"   4 minutes ago    Up 4 minutes    127.0.0.1:59542->6443/tcp   kind-control-plane
+6f3d351cc433   ping:v001              "gunicorn --bind=0.0…"   22 minutes ago   Up 22 minutes   0.0.0.0:9696->9696/tcp      affectionate_morse
+
+
+kubectl apply -f deployment.yaml
+kubectl get deployment
+kubectl get pod
+kubectl describe pod ping-deployment-86b45d75bf-w8p2n
+
+
+kind load docker-image ping:v001
+
+PS C:\kind> .\kind.exe load docker-image ping:v001
+Image: "ping:v001" with ID "sha256:5478aa7e0f423be585aed3f27fb6d858853fea0a37c623529b84bf8a120f8a8f" not yet present on node "kind-control-plane", loading...
+
+
+$ kubectl port-forward ping-deployment-86b45d75bf-w8p2n 9696:9696
+Forwarding from 127.0.0.1:9696 -> 9696
+curl localhost:9696/ping
+
+
+kubectl apply -f service.yaml
+kubectl get service
+
+
+$ kubectl port-forward service/ping 8080:80
+Forwarding from 127.0.0.1:8080 -> 9696
+Forwarding from [::1]:8080 -> 9696
+curl localhost:8080/ping
+
+
+
+# 10.7
+# PS C:\kind> .\kind.exe load docker-image ping:v001
+
+
+kubectl get pod
+kubectl get deployment
+kubectl delete -f model-deployment.yaml
+
+PS C:\kind> ls
+
+
+    Directory: C:\kind
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----        03.12.2023     18:54        6561792 kind.exe
+
+
+PS C:\kind> .\kind.exe load docker-image zoomcamp-10-model:xception-v4-001
+Image: "zoomcamp-10-model:xception-v4-001" with ID "sha256:3d969d6719346c9147e04a15ba2c419e4ee13165ead9f3a53f08e652903c798f" not yet present on node "kind-control-plane", loading...
+PS C:\kind>
+
+kubectl apply -f model-deployment.yaml
+kubectl get pod
+kubectl describe pod tf-serving-clothing-model-85b5dbddc5-d265c
+kubectl port-forward tf-serving-clothing-model-85b5dbddc5-d265c 8500:8500
+
+
+kubectl apply -f model-service.yaml
+
+
+
+KonuTech@DESKTOP-D7SFLUT MINGW64 ~/ml-zoomcamp/machine-learning-zoomcamp/10-kubernetes/code (master)
+$ kubectl get service
+NAME                        TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)        AGE
+kubernetes                  ClusterIP      10.96.0.1      <none>        443/TCP        2d8h
+ping                        LoadBalancer   10.96.57.251   <pending>     80:31744/TCP   2d7h
+tf-serving-clothing-model   ClusterIP      10.96.23.42    <none>        8500/TCP       5h57m
+
+KonuTech@DESKTOP-D7SFLUT MINGW64 ~/ml-zoomcamp/machine-learning-zoomcamp/10-kubernetes/code (master)
+$ docker ps
+CONTAINER ID   IMAGE                               COMMAND                  CREATED         STATUS         PORTS        
+               NAMES
+510ea2d77dc3   zoomcamp-10-gateway:002             "gunicorn --bind=0.0…"   2 minutes ago   Up 2 minutes   0.0.0.0:9696->9696/tcp      code-gateway-1
+4680b4879a05   zoomcamp-10-model:xception-v4-001   "/usr/bin/tf_serving…"   2 minutes ago   Up 2 minutes   8500-8501/tcp               NAMES               code-clothing-model-1                                                                                    >9696/tcp      code-gateway-1   
+a870482b9e7c   kindest/node:v1.27.3                "/usr/local/bin/entr…"   2 days ago      Up 6 hours     127.0.0.1:595               code-clothing-mod42->6443/tcp   kind-control-plane
+                                                                                                                        42->6443/tcp   kind-control-plan
+KonuTech@DESKTOP-D7SFLUT MINGW64 ~/ml-zoomcamp/machine-learning-zoomcamp/10-kubernetes/code (master)
+$ ls
+clothing-model     docker-compose.yaml  image-gateway.dockerfile  kube-config  ping     Pipfile.lock  proto.py   test.py
+
+clothing-model.h5  gateway.py           image-model.dockerfile    pants.jpg    Pipfile  plan.md       README.md  tf-serving-connect.ipynb                                                                                                       ing-connect.ipynb
+
+KonuTech@DESKTOP-D7SFLUT MINGW64 ~/ml-zoomcamp/machine-learning-zoomcamp/10-kubernetes/code (master)
+$ cd kube-config/
+
+KonuTech@DESKTOP-D7SFLUT MINGW64 ~/ml-zoomcamp/machine-learning-zoomcamp/10-kubernetes/code/kube-config (master)        
+$ ls
+eks-config.yaml  gateway-deployment.yaml  gateway-service.yaml  model-deployment.yaml  model-service.yaml
+
+KonuTech@DESKTOP-D7SFLUT MINGW64 ~/ml-zoomcamp/machine-learning-zoomcamp/10-kubernetes/code/kube-config (master)        
+$ kubectl get pod
+NAME                                         READY   STATUS             RESTARTS   AGE
+tf-serving-clothing-model-76b6cbf857-gprjj   0/1     ImagePullBackOff   0          27m
+
+KonuTech@DESKTOP-D7SFLUT MINGW64 ~/ml-zoomcamp/machine-learning-zoomcamp/10-kubernetes/code/kube-config (master)        
+$ kubectl delete -f tf-serving-clothing-model-76b6cbf857-gprjj
+error: the path "tf-serving-clothing-model-76b6cbf857-gprjj" does not exist
+
+KonuTech@DESKTOP-D7SFLUT MINGW64 ~/ml-zoomcamp/machine-learning-zoomcamp/10-kubernetes/code/kube-config (master)        
+$ kubectl delete tf-serving-clothing-model-76b6cbf857-gprjj
+error: the server doesn't have a resource type "tf-serving-clothing-model-76b6cbf857-gprjj"
+
+KonuTech@DESKTOP-D7SFLUT MINGW64 ~/ml-zoomcamp/machine-learning-zoomcamp/10-kubernetes/code/kube-config (master)        
+$ kubectl get pod
+NAME                                         READY   STATUS             RESTARTS   AGE
+tf-serving-clothing-model-76b6cbf857-gprjj   0/1     ImagePullBackOff   0          29m
+
+KonuTech@DESKTOP-D7SFLUT MINGW64 ~/ml-zoomcamp/machine-learning-zoomcamp/10-kubernetes/code/kube-config (master)        
+$ kubectl delete -f model-deployment.yaml~
+error: the path "model-deployment.yaml~" does not exist
+
+KonuTech@DESKTOP-D7SFLUT MINGW64 ~/ml-zoomcamp/machine-learning-zoomcamp/10-kubernetes/code/kube-config (master)        
+$ kubectl get pod
+NAME                                         READY   STATUS             RESTARTS   AGE
+tf-serving-clothing-model-76b6cbf857-gprjj   0/1     ImagePullBackOff   0          29m
+
+KonuTech@DESKTOP-D7SFLUT MINGW64 ~/ml-zoomcamp/machine-learning-zoomcamp/10-kubernetes/code/kube-config (master)        
+$ kubectl delete -f model-deployment.yaml
+deployment.apps "tf-serving-clothing-model" deleted
+
+KonuTech@DESKTOP-D7SFLUT MINGW64 ~/ml-zoomcamp/machine-learning-zoomcamp/10-kubernetes/code/kube-config (master)        
+$ kubectl get pod
+No resources found in default namespace.
+
+KonuTech@DESKTOP-D7SFLUT MINGW64 ~/ml-zoomcamp/machine-learning-zoomcamp/10-kubernetes/code/kube-config (master)        
+$ kubectl apply -f model-deployment.yaml
+deployment.apps/tf-serving-clothing-model created
+
+KonuTech@DESKTOP-D7SFLUT MINGW64 ~/ml-zoomcamp/machine-learning-zoomcamp/10-kubernetes/code/kube-config (master)        
+$ kubectl get pod
+NAME                                         READY   STATUS         RESTARTS   AGE
+tf-serving-clothing-model-76b6cbf857-x7gqh   0/1     ErrImagePull   0          3s
+
+KonuTech@DESKTOP-D7SFLUT MINGW64 ~/ml-zoomcamp/machine-learning-zoomcamp/10-kubernetes/code/kube-config (master)        
+$ kubectl delete -f model-deployment.yaml
+deployment.apps "tf-serving-clothing-model" deleted
+
+KonuTech@DESKTOP-D7SFLUT MINGW64 ~/ml-zoomcamp/machine-learning-zoomcamp/10-kubernetes/code/kube-config (master)        
+$ kubectl get pod
+No resources found in default namespace.
+
+KonuTech@DESKTOP-D7SFLUT MINGW64 ~/ml-zoomcamp/machine-learning-zoomcamp/10-kubernetes/code/kube-config (master)        
+$
+
+KonuTech@DESKTOP-D7SFLUT MINGW64 ~/ml-zoomcamp/machine-learning-zoomcamp/10-kubernetes/code/kube-config (master)        
+$ kubectl apply -f model-deployment.yaml
+deployment.apps/tf-serving-clothing-model created
+
+KonuTech@DESKTOP-D7SFLUT MINGW64 ~/ml-zoomcamp/machine-learning-zoomcamp/10-kubernetes/code/kube-config (master)        
+$ kubectl get pod
+NAME                                         READY   STATUS    RESTARTS   AGE
+tf-serving-clothing-model-55d9b7586b-b9pnb   1/1     Running   0          3s
+
+KonuTech@DESKTOP-D7SFLUT MINGW64 ~/ml-zoomcamp/machine-learning-zoomcamp/10-kubernetes/code/kube-config (master)        
+$ kubectl get pod
+NAME                                         READY   STATUS    RESTARTS   AGE
+tf-serving-clothing-model-55d9b7586b-b9pnb   1/1     Running   0          52s
+
+KonuTech@DESKTOP-D7SFLUT MINGW64 ~/ml-zoomcamp/machine-learning-zoomcamp/10-kubernetes/code/kube-config (master)
+$
+
+
+
+python gateway.py
+
+$ kubectl apply -f model-service.yaml
+service/tf-serving-clothing-model unchange
+kubectl get service
+
+
+kubectl port-forward service/tf-serving-clothing-model 8500:8500
+
+$ kubectl exec -it tf-serving-clothing-model-55d9b7586b-b9pnb -- bash
+
+
+curl tf-serving-clothing-model.default.svc.cluster.local:8500
+
+
+PS C:\kind> .\kind.exe load docker-image zoomcamp-10-gateway:002
+Image: "zoomcamp-10-gateway:002" with ID "sha256:38143afc02819d8d563b9da11d2aa801c45792aeb7591c5dd59f52a0eb28464f" not yet present on node "kind-control-plane", loading...
+PS C:\kind>
+
+kubectl apply -f gateway-deployment.yaml
+
+kubectl port-forward gateway-7d74767d4b-g6jvt 9696:9696
+
+kubectl apply -f gateway-service.yaml
+
+kubectl get service
+kubectl port-forward service/gateway 8080:80
+
+
+
+### machine-learning-zoomcamp-capstone-02
+# Running a dockerized app:
+# 1. From the local terminal:
+docker build -t machine-learning-zoomcamp-capstone-02 .
+
+# 2. From the local terminal:
+docker run -it --rm -p 9696:9696 --entrypoint=bash machine-learning-zoomcamp-capstone-02
+
+# 3. Launch Flask app in a Docker image: 
+python predict.py
+exit
+
+#4. make a prediction locally
+python predict_test.py
