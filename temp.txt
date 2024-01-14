@@ -12,7 +12,7 @@ git remote add upstream https://github.com/KonuTech/data-engineering-zoomcamp
 git remote -v
 git fetch upstream
 git checkout main
-git merge upstream/master
+git merge upstream/main
 git commit -m "updated from upstream repo"
 git push origin master
 git status

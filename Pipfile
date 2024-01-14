@@ -1,0 +1,21 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+pgcli = "*"
+psycopg-binary = "*"
+jupyter = "*"
+notebook = "*"
+black = "*"
+isort = "*"
+flake8 = "*"
+pandas = "*"
+sqlalchemy = "*"
+psycopg2 = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.9"

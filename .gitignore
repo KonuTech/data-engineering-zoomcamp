@@ -1,3 +1,5 @@
+*.gz
+**/01-docker-terraform/2_docker_sql/ny-taxi-volume
 venv
 .DS_Store
 .idea
